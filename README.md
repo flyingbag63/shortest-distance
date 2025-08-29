@@ -1,12 +1,17 @@
 ## Order Routing
 
+Given a batch of orders (with restaurants and customers), 
+find a minimum cost path that visits all nodes in the batch 
+such that each restaurant node is 
+visited before its corresponding customer node.
+
 ---
 
 ### **Assumptions**
 
 - **Data Store**: In-memory storage
 - **Order Batch Size**: Up to **8–10 orders** per batch
-
+- **Vanilla Python**
 ---
 
 ### **Entities**
@@ -17,6 +22,7 @@
 - **Location**
   - `object_id`
   - `location_type`
+  - `timestamp`
 - **Order**
   - `customer_id`
   - `restaurant_id`
