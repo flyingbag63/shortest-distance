@@ -61,6 +61,16 @@
 
 ---
 
+---
+
+## Data Flow
+
+![Alt text for the image](data%20flow.png "Data Flow")
+
+---
+
+---
+
 ### **Approach: Dijkstra with Masking**
 
 **`DijkstraWithMaskRouteFinder`**
@@ -143,14 +153,6 @@ RouteFinder:
     - Uses bitmask for visited nodes
 ```
 
-
----
-
----
-
-## Data Flow
-
-![Alt text for the image](data%20flow.png "Data Flow")
 
 ---
 
