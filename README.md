@@ -59,6 +59,8 @@
   - Responsibility: Find the optimal route for a given graph with a root
   - Factory: Provides finder for a given strategy
 
+**Note**: Class variables, class methods provide ~ singleton and stateless behaviour for business classes.
+
 ---
 
 ## Data Flow
