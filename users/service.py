@@ -6,6 +6,7 @@ from users.enums import UserStatus
 from users.model import Customer, Rider
 from users.repository import CustomerRepository, RiderRepository
 
+
 class CustomerService:
     @classmethod
     def create(cls, name: str, phone: str) -> Customer:
@@ -23,6 +24,7 @@ class CustomerService:
     @classmethod
     def get_all(cls) -> List[Customer]:
         return CustomerRepository.get_all()
+
 
 class RiderService:
     @classmethod
@@ -42,6 +44,7 @@ class RiderService:
     @classmethod
     def get_active_riders(cls) -> List[Rider]:
         return [
-            rider for rider in RiderRepository.get_all()
+            rider
+            for rider in RiderRepository.get_all()
             if rider.status == UserStatus.ACTIVE
         ]

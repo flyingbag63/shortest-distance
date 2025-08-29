@@ -7,12 +7,13 @@ from users.model import Rider
 from users.service import RiderService
 from orders.model import Order
 
+
 class OrderMatcher:
     @classmethod
     def match(cls, orders: List[Order]) -> Rider:
         active_riders = RiderService.get_active_riders()
         if not active_riders:
-            raise Exception('No active riders available')
+            raise Exception("No active riders available")
         return active_riders[0]
 
     @classmethod

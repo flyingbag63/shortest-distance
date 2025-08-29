@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from locations.enums import LocationType
 
+
 class Location:
     id: uuid.UUID
     object_id: uuid.UUID

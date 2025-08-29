@@ -22,7 +22,8 @@ from users.model import Customer, Rider
 from users.service import CustomerService, RiderService
 from utils import flatten
 
-PRECISION = Decimal('1.00')
+PRECISION = Decimal("1.00")
+
 
 def generate_restaurants_and_locations(count: int):
     for index in range(count):
@@ -32,7 +33,10 @@ def generate_restaurants_and_locations(count: int):
         restaurant: Restaurant = RestaurantService.create(name, phone, preparation_time)
         latitude: Decimal = Decimal(random.uniform(-90.0, 90.0)).quantize(PRECISION)
         longitude: Decimal = Decimal(random.uniform(-180.0, 180.0)).quantize(PRECISION)
-        LocationService.create(restaurant.id, LocationType.RESTAURANT, longitude, latitude)
+        LocationService.create(
+            restaurant.id, LocationType.RESTAURANT, longitude, latitude
+        )
+
 
 def generate_customers_and_locations(count: int):
     for index in range(count):
@@ -42,6 +46,7 @@ def generate_customers_and_locations(count: int):
         latitude: Decimal = Decimal(random.uniform(-90.0, 90.0)).quantize(PRECISION)
         longitude: Decimal = Decimal(random.uniform(-180.0, 180.0)).quantize(PRECISION)
         LocationService.create(customer.id, LocationType.CUSTOMER, longitude, latitude)
+
 
 def generate_riders_and_locations(count: int):
     for index in range(count):
@@ -53,6 +58,7 @@ def generate_riders_and_locations(count: int):
         longitude: Decimal = Decimal(random.uniform(-180.0, 180.0)).quantize(PRECISION)
         LocationService.create(rider.id, LocationType.RIDER, longitude, latitude)
 
+
 def generate_orders(count: int):
     customers: List[Customer] = CustomerService.get_all()
     restaurants: List[Restaurant] = RestaurantService.get_all()
@@ -61,7 +67,10 @@ def generate_orders(count: int):
         random_restaurant: Restaurant = random.choice(restaurants)
         OrderService.create(customer.id, random_restaurant.id, Decimal("100"))
 
-def get_customer_restaurant_map(orders: List[Order]) -> Dict[uuid.UUID, List[uuid.UUID]]:
+
+def get_customer_restaurant_map(
+    orders: List[Order],
+) -> Dict[uuid.UUID, List[uuid.UUID]]:
     customer_restaurant_map: Dict[uuid.UUID, List[uuid.UUID]] = {}
     for order in orders:
         customer_id: uuid.UUID = order.customer_id
@@ -72,6 +81,7 @@ def get_customer_restaurant_map(orders: List[Order]) -> Dict[uuid.UUID, List[uui
         customer_restaurant_map[customer_id].append(restaurant_id)
 
     return customer_restaurant_map
+
 
 def get_object_name_map(orders: List[Order]) -> Dict[uuid.UUID, str]:
     object_name_map: Dict[uuid.UUID, str] = {}
@@ -90,15 +100,17 @@ def main():
     generate_customers_and_locations(100)
     generate_riders_and_locations(1)
     generate_orders(2)
-    customer_restaurant_map: Dict[uuid.UUID, List[uuid.UUID]] = get_customer_restaurant_map(
-        OrderService.get_all()
+    customer_restaurant_map: Dict[uuid.UUID, List[uuid.UUID]] = (
+        get_customer_restaurant_map(OrderService.get_all())
     )
     rider: Rider = OrderMatcher.match(OrderService.get_all())
     locations: List[Location] = OrderMatcher.get_locations(OrderService.get_all())
     locations.append(LocationService.get_latest_by_object_id(rider.id))
 
     graph: Graph = GraphBuilder.build(rider, locations)
-    route_finder: RouteFinder = RouteFinderFactory.get_route_finder(RoutePlanningStrategy.DIJKSTRA_WITH_MASK)
+    route_finder: RouteFinder = RouteFinderFactory.get_route_finder(
+        RoutePlanningStrategy.DIJKSTRA_WITH_MASK
+    )
     route: RouteDTO = route_finder.find(graph, customer_restaurant_map)
     route_list: List[RouteDTO] = flatten(route)
     route_map = {}
@@ -109,5 +121,5 @@ def main():
     route_map["route"] = route_json
     print(json.dumps(route_map, default=str))
 
-main()
 
+main()

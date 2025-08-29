@@ -18,9 +18,8 @@ class DijkstraNode(TraversalNode):
         self.mask = mask
 
     def __lt__(self, other: "DijkstraNode") -> bool:
-        return (
-                self.cost < other.cost or
-                (self.cost == other.cost and self.mask < other.mask)
+        return self.cost < other.cost or (
+            self.cost == other.cost and self.mask < other.mask
         )
 
     def get_mask(self) -> int:
@@ -59,11 +58,10 @@ class RouteDTO:
         return {
             "node": self.node,
             "cost_till_here": self.cost_till_here,
-            "previous_route": self.previous_route.to_dict() if self.previous_route else None,
+            "previous_route": (
+                self.previous_route.to_dict() if self.previous_route else None
+            ),
         }
 
     def to_dict_without_previous(self):
-        return {
-            "node": self.node.to_dict(),
-            "cost_till_here": self.cost_till_here
-        }
+        return {"node": self.node.to_dict(), "cost_till_here": self.cost_till_here}

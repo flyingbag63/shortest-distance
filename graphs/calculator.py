@@ -5,7 +5,8 @@ from decimal import Decimal
 from graphs.dto import NodeDTO, HaversineNode
 from graphs.enums import DistanceCalculationStrategy
 
-PRECISION = Decimal('1.00')
+PRECISION = Decimal("1.00")
+
 
 class DistanceCalculator(ABC):
 
@@ -36,9 +37,9 @@ class HaversineDistanceCalculator(DistanceCalculator):
         lat1 = lat1 * math.pi / 180.0
         lat2 = lat2 * math.pi / 180.0
 
-        a = (pow(math.sin(d_lat / 2), 2) +
-             pow(math.sin(d_lon / 2), 2) *
-             math.cos(lat1) * math.cos(lat2))
+        a = pow(math.sin(d_lat / 2), 2) + pow(math.sin(d_lon / 2), 2) * math.cos(
+            lat1
+        ) * math.cos(lat2)
 
         c = 2 * math.asin(math.sqrt(a))
         return Decimal(cls.EARTH_RADIUS_KM * c).quantize(PRECISION)
@@ -47,11 +48,14 @@ class HaversineDistanceCalculator(DistanceCalculator):
     def get_strategy(cls) -> DistanceCalculationStrategy:
         return DistanceCalculationStrategy.HAVERSINE
 
+
 class DistanceCalculatorFactory:
     _CALCULATION_STRATEGY_TO_CALCULATOR = {
         DistanceCalculationStrategy.HAVERSINE: HaversineDistanceCalculator(),
     }
 
     @classmethod
-    def get_calculator(cls, strategy: DistanceCalculationStrategy) -> DistanceCalculator:
+    def get_calculator(
+        cls, strategy: DistanceCalculationStrategy
+    ) -> DistanceCalculator:
         return cls._CALCULATION_STRATEGY_TO_CALCULATOR.get(strategy)

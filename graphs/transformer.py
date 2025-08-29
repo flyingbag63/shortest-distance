@@ -31,7 +31,9 @@ class HaversineNodeTransformer(NodeTransformer):
     def transform_one(cls, location: Location) -> HaversineNode:
         min_available_time = Decimal("0")
         if location.is_restaurant():
-            min_available_time = RestaurantService.get_by_id(location.get_object_id()).avg_preparation_time
+            min_available_time = RestaurantService.get_by_id(
+                location.get_object_id()
+            ).avg_preparation_time
 
         return HaversineNode(
             object_id=location.object_id,
@@ -43,15 +45,11 @@ class HaversineNodeTransformer(NodeTransformer):
 
     @classmethod
     def transform_many(cls, locations: List[Location]) -> List[HaversineNode]:
-        return [
-            cls.transform_one(location)
-            for location in locations
-        ]
+        return [cls.transform_one(location) for location in locations]
 
     @classmethod
     def get_strategy(cls) -> DistanceCalculationStrategy:
         return DistanceCalculationStrategy.HAVERSINE
-
 
 
 class NodeTransformerFactory:
