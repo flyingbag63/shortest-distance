@@ -146,6 +146,14 @@ RouteFinder:
 
 ---
 
+---
+
+## Data Flow
+
+![Alt text for the image](data%20flow.png "Data Flow")
+
+---
+
 ## Sample Response
 
 ```json
