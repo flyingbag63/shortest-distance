@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from restaurants.enums import RestaurantStatus
 
+
 class Restaurant:
     id: uuid.UUID
     name: str

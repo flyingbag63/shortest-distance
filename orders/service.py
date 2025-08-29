@@ -7,9 +7,12 @@ from orders.enums import OrderStatus
 from orders.model import Order
 from orders.repository import OrderRepository
 
+
 class OrderService:
     @classmethod
-    def create(cls, customer_id: uuid.UUID, restaurant_id: uuid.UUID, amount: Decimal) -> Order:
+    def create(
+        cls, customer_id: uuid.UUID, restaurant_id: uuid.UUID, amount: Decimal
+    ) -> Order:
         order = Order()
         order.set_customer_id(customer_id)
         order.set_restaurant_id(restaurant_id)
@@ -33,6 +36,4 @@ class OrderService:
 
     @classmethod
     def get_all(cls) -> List[Order]:
-        return list(
-            OrderRepository.get_all()
-        )
+        return list(OrderRepository.get_all())

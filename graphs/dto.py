@@ -6,7 +6,7 @@ from typing import List, Dict
 
 from locations.enums import LocationType
 
-PRECISION = Decimal('1.00')
+PRECISION = Decimal("1.00")
 
 
 @dataclass(frozen=True)
@@ -40,7 +40,11 @@ class HaversineNode(NodeDTO):
         return hash((self.object_id, self.latitude, self.longitude))
 
     def __eq__(self, other):
-        return self.latitude == other.latitude and self.longitude == other.longitude and super().__eq__(other)
+        return (
+            self.latitude == other.latitude
+            and self.longitude == other.longitude
+            and super().__eq__(other)
+        )
 
     def to_dict(self):
         return {
@@ -50,6 +54,7 @@ class HaversineNode(NodeDTO):
             "node_type": self.node_type.value,
             "min_available_time": self.min_available_time.quantize(PRECISION),
         }
+
 
 @dataclass
 class NodeEdge:
@@ -67,19 +72,14 @@ class Graph:
         self.nodes: List[NodeDTO] = []
         self.edge_map: Dict[NodeDTO, List[NodeEdge]] = {}
 
-
     def set_root(self, root: NodeDTO):
         self.root = root
 
     def get_customer_nodes(self):
-        return list(
-            filter(lambda node: node.is_customer(), self.nodes)
-        )
+        return list(filter(lambda node: node.is_customer(), self.nodes))
 
     def get_restaurant_nodes(self):
-        return list(
-            filter(lambda node: node.is_restaurant(), self.nodes)
-        )
+        return list(filter(lambda node: node.is_restaurant(), self.nodes))
 
     def get_nodes(self):
         return self.nodes

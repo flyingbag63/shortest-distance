@@ -7,9 +7,16 @@ from locations.enums import LocationType
 from locations.model import Location
 from locations.repository import LocationRepository
 
+
 class LocationService:
     @classmethod
-    def create(cls, object_id: uuid.UUID, location_type: LocationType, longitude: Decimal, latitude: Decimal) -> Location:
+    def create(
+        cls,
+        object_id: uuid.UUID,
+        location_type: LocationType,
+        longitude: Decimal,
+        latitude: Decimal,
+    ) -> Location:
         location = Location()
         location.set_object_id(object_id)
         location.set_location_type(location_type)
@@ -31,5 +38,5 @@ class LocationService:
     def get_latest_by_object_id(cls, object_id: uuid.UUID) -> Location:
         locations = LocationRepository.get_by_object_id(object_id)
         if not locations:
-            raise Exception('No locations found for the given object id')
+            raise Exception("No locations found for the given object id")
         return max(locations, key=lambda loc: loc.timestamp)

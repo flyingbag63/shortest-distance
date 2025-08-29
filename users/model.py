@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from users.enums import UserStatus
 
+
 class User:
     id: uuid.UUID
     name: str
@@ -28,9 +29,11 @@ class User:
     def __repr__(self):
         return str(self.__dict__)
 
+
 class Customer(User):
     def __init__(self):
         super().__init__()
+
 
 class Rider(User):
     vehicle_speed: Decimal

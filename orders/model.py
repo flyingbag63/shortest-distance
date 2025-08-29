@@ -4,6 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from orders.enums import OrderStatus
 
+
 class Order:
     id: uuid.UUID
     customer_id: uuid.UUID

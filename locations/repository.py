@@ -2,6 +2,7 @@ import uuid
 from typing import List
 from locations.model import Location
 
+
 class LocationRepository:
     _location_id_to_location_map = {}
     _object_id_to_location_map = {}
@@ -14,13 +15,13 @@ class LocationRepository:
                 cls._object_id_to_location_map[location.object_id] = []
             cls._object_id_to_location_map[location.object_id].append(location)
         else:
-            raise Exception('Location id already exists')
+            raise Exception("Location id already exists")
         return location
 
     @classmethod
     def get_by_id(cls, location_id: uuid.UUID) -> Location:
         if location_id not in cls._location_id_to_location_map:
-            raise Exception('Location id does not exist')
+            raise Exception("Location id does not exist")
         return cls._location_id_to_location_map[location_id]
 
     @classmethod
@@ -30,5 +31,5 @@ class LocationRepository:
     @classmethod
     def update(cls, location: Location):
         if location.id not in cls._location_id_to_location_map:
-            raise Exception('Location id does not exist')
+            raise Exception("Location id does not exist")
         cls._location_id_to_location_map[location.id] = location
